@@ -1,0 +1,15 @@
+{
+  "name": "@yah/parse",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "parse5": "^7.1.2",
+    "yaml": "^2.4.5"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.2"
+  }
+}

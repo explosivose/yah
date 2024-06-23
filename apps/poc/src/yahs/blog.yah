@@ -1,0 +1,11 @@
+---
+query:
+  source: my-data-client
+  out: post
+  operation: getPost
+  operands: p:params:slug
+---
+section
+  nav
+  h1 d:post:title
+  p d:post:content

@@ -1,0 +1,11 @@
+{
+  "name": "poc-yah",
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "@yah/parse": "workspace:*"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.2"
+  }
+}
