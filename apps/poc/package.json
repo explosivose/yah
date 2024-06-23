@@ -6,6 +6,7 @@
     "@yah/parse": "workspace:*"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.2"
+    "@biomejs/biome": "^1.8.2",
+    "pino-colada": "^2.2.2"
   }
 }

@@ -5,6 +5,7 @@ query:
   operation: getPost
   operands: p:params:slug
 ---
+pug
 section
   nav
   h1 d:post:title
