@@ -42,10 +42,10 @@ export const parseFrontmatter = (input) => {
 /**
  *
  * @param {string[]} input
- * @returns {import("parse5/dist/tree-adapters/default").DocumentFragment}
+ * @returns {import("parse5").DefaultTreeAdapterMap["documentFragment"]}
  */
 export const parseTemplate = (input) => {
-  let htmlTemplate = input;
+  let htmlTemplate;
   if (input.includes("pug")) {
     logger.debug("Parsing pug template...");
     htmlTemplate = pug.compile(
@@ -56,6 +56,7 @@ export const parseTemplate = (input) => {
     )();
   } else {
     logger.debug("Parsing html template...");
+    htmlTemplate = input.join("");
   }
   logger.debug(htmlTemplate);
   return parse5.parseFragment(htmlTemplate);
