@@ -1,17 +1,17 @@
 {
-  "name": "poc-yah",
+  "name": "@yah/datasource",
   "version": "0.0.0",
   "type": "module",
+  "exports": {
+    ".": "./src/index.js"
+  },
   "dependencies": {
-    "@yah/data": "workspace:*",
-    "@yah/datasource": "workspace:*",
-    "@yah/datasource-sqlitecloud": "workspace:*",
     "@yah/parse": "workspace:*",
     "@yah/logger": "workspace:*",
     "pino": "^9.2.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.2",
-    "pino-colada": "^2.2.2"
+    "zod": "^3.23.8"
   }
 }

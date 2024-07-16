@@ -2,23 +2,35 @@ import * as yaml from "yaml";
 import * as parse5 from "parse5";
 import { pino } from "pino";
 import * as pug from "pug";
+import { parseFrontmatter } from "./parseFrontmatter.js";
+import parentLogger from "@yah/logger";
 
-const logger = pino({
-  name: "parse",
-  level: process.env.LOG_LEVEL || "info",
-  enabled: process.env.DEBUG?.includes("yah/parse"),
-});
+const logger = parentLogger.child({ name: "parse" });
+
+/**
+ * @import { DefaultTreeAdapterMap } from 'parse5'
+ * @import { Frontmatter } from './parseFrontmatter.js'
+ */
+
+/**
+ * @typedef {object} YahParsed
+ * @property {Frontmatter | undefined} frontmatter
+ * @property {DefaultTreeAdapterMap['documentFragment']} template
+ */
 
 /**
  *
  * @param {string} input
+ * @returns {YahParsed}
  */
 export const parse = (input) => {
   const lines = input.split(/(\r?\n)/);
   let frontmatter;
   let fmStop = 0;
-  if (lines[0] && /---/.test(lines[0])) {
-    fmStop = lines.indexOf("---", 1);
+  const matchDocMarker = /^---[a-z]*$/;
+  if (lines[0] && matchDocMarker.test(lines[0])) {
+    // fmStop = lines.indexOf("---", 1);
+    fmStop = lines.slice(1).findIndex((line) => line.match(matchDocMarker));
     const fmText = lines.slice(1, fmStop).join("");
     frontmatter = parseFrontmatter(fmText);
     logger.debug({ msg: JSON.stringify(frontmatter) });
@@ -30,30 +42,14 @@ export const parse = (input) => {
 
 /**
  *
- * @param {string} input
- */
-export const parseFrontmatter = (input) => {
-  // TODO: schema validation for frontmatter
-  // TODO: @typedef for frontmatter
-  const y = yaml.parse(input);
-  return y;
-};
-
-/**
- *
  * @param {string[]} input
- * @returns {import("parse5").DefaultTreeAdapterMap["documentFragment"]}
+ * @returns {DefaultTreeAdapterMap["documentFragment"]}
  */
 export const parseTemplate = (input) => {
   let htmlTemplate;
-  if (input.includes("pug")) {
+  if (input[0] === "---pug") {
     logger.debug("Parsing pug template...");
-    htmlTemplate = pug.compile(
-      input
-        .filter((line) => line !== "pug")
-        .slice(1)
-        .join(""),
-    )();
+    htmlTemplate = pug.compile(input.slice(1).join(""))();
   } else {
     logger.debug("Parsing html template...");
     htmlTemplate = input.join("");

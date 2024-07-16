@@ -1,11 +1,12 @@
 ---
 query:
-  source: my-data-client
+  source: yah-blog-db
   out: post
-  operation: getPost
+  query: |
+    SELECT * FROM blog_entry
+    WHERE slug = ?
   operands: p:params:slug
----
-pug
+---pug
 section
   nav
   h1 d:post:title

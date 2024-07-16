@@ -1,18 +1,17 @@
 {
-  "name": "@yah/parse",
+  "name": "@yah/data",
   "version": "0.0.0",
   "type": "module",
   "exports": {
     ".": "./src/index.js"
   },
   "dependencies": {
-    "parse5": "^7.1.2",
     "pino": "^9.2.0",
-    "pug": "^3.0.3",
-    "yaml": "^2.4.5",
-    "zod": "^3.23.8"
+    "@yah/datasource": "workspace:*"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.2"
+    "@biomejs/biome": "^1.8.2",
+    "@yah/parse": "workspace:*",
+    "zod": "^3.23.8"
   }
 }

@@ -1,8 +1,4 @@
 {
-  "compilerOptions": {
-    "module": "NodeNext",
-    "target": "ES6",
-    "checkJs": true
-  },
+  "extends": "../../jsconfig.json",
   "include": ["src/**/*"]
 }

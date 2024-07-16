@@ -1,2 +1,10 @@
 #!/bin/zsh
-node --env-file=.env src/index.js  | node ../../node_modules/.bin/pino-colada
+. ./.env
+echo $DEBUG
+node --env-file=.env src/index.js |
+ # jq --unbuffered --arg  DEBUG "$DEBUG" '.name as $name | select($DEBUG | contains($name))' |
+  node ../../node_modules/.bin/pino-colada
+
+# echo '{"name": "yah/parse"}' |
+#  jq --arg DEBUG "$DEBUG" '.name as $name | select($DEBUG | contains($name))' |
+#  node ../../node_modules/.bin/pino-colada

@@ -1,16 +1,14 @@
 {
-  "name": "@yah/parse",
+  "name": "@yah/datasource-sqlitecloud",
   "version": "0.0.0",
   "type": "module",
   "exports": {
     ".": "./src/index.js"
   },
   "dependencies": {
-    "parse5": "^7.1.2",
-    "pino": "^9.2.0",
-    "pug": "^3.0.3",
-    "yaml": "^2.4.5",
-    "zod": "^3.23.8"
+    "@sqlitecloud/drivers": "^1.0.193",
+    "@yah/datasource": "workspace:*",
+    "pino": "^9.2.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.2"
