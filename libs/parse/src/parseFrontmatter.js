@@ -10,8 +10,9 @@ export const DataSourceSchema = z.object({
 export const QuerySchema = z.object({
   name: z.optional(z.string()),
   source: z.string(),
-  out: z.string(),
+  out: z.optional(z.string()),
   query: z.string(),
+  init: z.optional(z.boolean()),
 });
 
 export const FrontmatterSchema = z.object({

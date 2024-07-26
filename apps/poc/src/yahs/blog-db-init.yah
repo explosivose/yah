@@ -1,0 +1,32 @@
+---
+query:
+  init: true
+  name: blog-db-init
+  source: yah-blog-db
+  query: |
+    CREATE TABLE blog_user(
+      user varchar(30) primary key,
+      pass varchar(30)
+    );
+    CREATE TABLE blog_entry(
+      created timestamp,
+      user varchar(30),
+      entry text,
+      slug varchar(30) primary key,
+      foreign key (user) references blog_user(user)
+    );
+    INSERT INTO blog_user(user, pass) 
+    VALUES ('matt', 'mattpass'), ('yahsqueen', 'yahsqueenpass'), ('yahman', 'yahmanpass');
+    INSERT INTO blog_entry(created, user, slug, entry)
+    VALUES (
+      CURRENT_TIMESTAMP,
+      'matt',
+      'welcome',
+      'Welcome to yah blog'
+    ), (
+      CURRENT_TIMESTAMP,
+      'yahsqueen',
+      'yah',
+      'yaaaaaaaaaaahs queen'
+    );
+---

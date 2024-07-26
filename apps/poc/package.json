@@ -6,6 +6,7 @@
     "@yah/data": "workspace:*",
     "@yah/datasource": "workspace:*",
     "@yah/datasource-sqlitecloud": "workspace:*",
+    "@yah/datasource-sqlite": "workspace:*",
     "@yah/parse": "workspace:*",
     "@yah/logger": "workspace:*",
     "pino": "^9.2.0"

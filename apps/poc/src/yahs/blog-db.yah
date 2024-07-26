@@ -1,4 +1,6 @@
+---
 dataSource:
   name: yah-blog-db
-  type: sqlitecloud
-  connection: :memory:
+  type: sqlite
+  connection: ':memory:'
+---

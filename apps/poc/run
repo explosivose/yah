@@ -1,7 +1,10 @@
 #!/bin/zsh
 . ./.env
 echo $DEBUG
-node --env-file=.env src/index.js |
+node \
+  --env-file=.env \
+  --experimental-sqlite \
+  src/index.js | \
  # jq --unbuffered --arg  DEBUG "$DEBUG" '.name as $name | select($DEBUG | contains($name))' |
   node ../../node_modules/.bin/pino-colada
 

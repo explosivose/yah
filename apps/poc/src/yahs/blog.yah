@@ -9,5 +9,6 @@ query:
 ---pug
 section
   nav
-  h1 d:post:title
-  p d:post:content
+  h1 ${d.post.title}
+  p ${d.post.content}
+  

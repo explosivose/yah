@@ -1,11 +1,13 @@
 import { runQuery } from "@yah/data";
 import { addDataConnector, addDataSource } from "@yah/datasource";
-import { dataConnector } from "@yah/datasource-sqlitecloud";
+import sqliteCloudSource from "@yah/datasource-sqlitecloud";
+import sqliteSource from "@yah/datasource-sqlite";
 import { parse } from "@yah/parse";
 import fs from "node:fs/promises";
-import { dirname } from "node:path";
+import { basename, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import parentLogger from "@yah/logger";
+import { Yah } from "./yah.js";
 
 /**
  * @import { YahParsed } from "@yah/parse"
@@ -20,41 +22,37 @@ const THIS_FILE = fileURLToPath(import.meta.url);
 const YAHS_DIR = `${dirname(THIS_FILE)}/yahs`;
 
 const init = () => {
-  addDataConnector(dataConnector);
+  addDataConnector(sqliteSource);
+  addDataConnector(sqliteCloudSource);
 };
 
 /**
  *
- * @param {YahParsed} yah
+ * @param {string} filePath
  */
-const firstPass = (yah) => {
-  if (yah.frontmatter?.dataSource) {
-    logger.debug(`firstPass ${yah.frontmatter.dataSource.name}`);
-    addDataSource(yah.frontmatter.dataSource);
-  }
-};
-
-/**
- *
- * @param {YahParsed} yah
- */
-const secondPass = async (yah) => {
-  if (yah.frontmatter?.query) {
-    const data = await runQuery(yah.frontmatter.query);
-    console.log(data);
-  }
+const readRawYah = async (filePath) => {
+  return {
+    rawYah: await fs.readFile(filePath),
+    name: basename(filePath),
+  };
 };
 
 const main = async () => {
   init();
-  const blogRaw = await fs.readFile(`${YAHS_DIR}/blog.yah`);
-  const blogDbRaw = await fs.readFile(`${YAHS_DIR}/blog-db.yah`);
-  const yahs = [blogRaw, blogDbRaw].map((raw) => parse(raw.toString()));
+  const blogRaw = await readRawYah(`${YAHS_DIR}/blog.yah`);
+  const blogDbRaw = await readRawYah(`${YAHS_DIR}/blog-db.yah`);
+  const blogDbInit = await readRawYah(`${YAHS_DIR}/blog-db-init.yah`);
+  const yahs = [blogRaw, blogDbRaw, blogDbInit].map(
+    (raw) => new Yah(parse(raw.rawYah.toString(), raw.name)),
+  );
   for (const yah of yahs) {
-    firstPass(yah);
+    yah.registerDataSources();
   }
   for (const yah of yahs) {
-    await secondPass(yah);
+    await yah.runInitQuery();
+  }
+  for (const yah of yahs) {
+    await yah.runQuery();
   }
 };
 main();
