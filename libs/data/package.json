@@ -6,8 +6,8 @@
     ".": "./src/index.js"
   },
   "dependencies": {
-    "pino": "^9.2.0",
-    "@yah/datasource": "workspace:*"
+    "@yah/datasource": "workspace:*",
+    "pino": "^9.2.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.2",

@@ -1,17 +1,21 @@
 {
-  "name": "@yah/datasource",
+  "name": "@yah/datasource-better-sqlite3",
   "version": "0.0.0",
   "type": "module",
   "exports": {
     ".": "./src/index.js"
   },
   "dependencies": {
+    "@yah/datasource": "workspace:*",
     "@yah/logger": "workspace:*",
-    "@yah/parse": "workspace:*",
+    "better-sqlite3": "^11.1.2",
     "pino": "^9.2.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.2",
-    "zod": "^3.23.8"
-  }
+    "@types/better-sqlite3": "^7.6.11"
+  },
+  "trustedDependencies": [
+    "better-sqlite3"
+  ]
 }

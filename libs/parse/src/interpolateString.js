@@ -13,7 +13,7 @@ const replace = (placeholder, key) => {
   return String(value);
 };
 
-const braceRegex = /{(\d+|[a-z$_][\w\-$]*?(?:\.[\w\-$]*?)*?)}/gi;
+const braceRegex = /\${(\d+|[a-z$_][\w\-$]*?(?:\.[\w\-$]*?)*?)}/gi;
 /**
  * @param {string} value
  * @returns {string}

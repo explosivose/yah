@@ -1,6 +1,7 @@
 import parentLogger from "@yah/logger";
 /**
  * @import { DataSource } from "./dataSources.js"
+ * @import { Query } from "@yah/parse"
  */
 /**
  * @template {DataSource} D
@@ -20,8 +21,13 @@ import parentLogger from "@yah/logger";
 /**
  * @template T
  * @callback RunQuery
+ * @param {Query} query
+ * @returns {Promise<T>}
+ */
+/**
+ * @template T
+ * @callback DescribeDataSource
  * @param {string} sourceName
- * @param {string} query
  * @returns {Promise<T>}
  */
 /**
@@ -33,6 +39,7 @@ import parentLogger from "@yah/logger";
  * @property {RemoveDataSource} remove
  * @property {GetDataSource<D>} get
  * @property {RunQuery<unknown>} runQuery
+ * @property {DescribeDataSource<unknown>} describe
  */
 const logger = parentLogger.child({ name: "datasource" });
 /**

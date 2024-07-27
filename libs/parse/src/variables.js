@@ -7,8 +7,8 @@ class Variables {
   #store = new AsyncLocalStorage();
   /**
    * @template T
-   * @param {() => T} callback
-   * @returns {T}
+   * @param {() => T | Promise<T>} callback
+   * @returns {T | Promise<T>}
    */
   createContext(callback) {
     const context = new Map();

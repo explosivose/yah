@@ -5,10 +5,10 @@
   "dependencies": {
     "@yah/data": "workspace:*",
     "@yah/datasource": "workspace:*",
-    "@yah/datasource-sqlitecloud": "workspace:*",
     "@yah/datasource-sqlite": "workspace:*",
-    "@yah/parse": "workspace:*",
+    "@yah/datasource-sqlitecloud": "workspace:*",
     "@yah/logger": "workspace:*",
+    "@yah/parse": "workspace:*",
     "pino": "^9.2.0"
   },
   "devDependencies": {

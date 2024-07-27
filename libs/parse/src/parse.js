@@ -26,20 +26,18 @@ import { variables } from "./variables.js";
  * @returns {YahParsed}
  */
 export const parse = (input, name) => {
-  return variables.createContext(() => {
-    const lines = input.split(/(\r?\n)/);
-    let frontmatter;
-    let fmStop = 0;
-    const matchDocMarker = /^---[a-z]*$/;
-    if (lines[0] && matchDocMarker.test(lines[0])) {
-      // fmStop = lines.indexOf("---", 1);
-      fmStop = lines.slice(1).findIndex((line) => line.match(matchDocMarker));
-      const fmText = lines.slice(1, fmStop).join("");
-      frontmatter = parseFrontmatter(fmText);
-      logger.debug({ msg: JSON.stringify(frontmatter) });
-    }
-    const templateLines = lines.slice(fmStop + 1);
-    const templateFn = parseTemplate(templateLines);
-    return { frontmatter, templateFn, name };
-  });
+  const lines = input.split(/(\r?\n)/);
+  let frontmatter;
+  let fmStop = 0;
+  const matchDocMarker = /^---[a-z]*$/;
+  if (lines[0] && matchDocMarker.test(lines[0])) {
+    // fmStop = lines.indexOf("---", 1);
+    fmStop = lines.slice(1).findIndex((line) => line.match(matchDocMarker));
+    const fmText = lines.slice(1, fmStop).join("");
+    frontmatter = parseFrontmatter(fmText);
+    logger.debug({ msg: JSON.stringify(frontmatter) });
+  }
+  const templateLines = lines.slice(fmStop + 1);
+  const templateFn = parseTemplate(templateLines);
+  return { frontmatter, templateFn, name };
 };

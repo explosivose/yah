@@ -1,0 +1,9 @@
+---
+query:
+  source: yah-blog-db
+  out: post
+  name: test
+  type: all
+  sql: |
+    SELECT * FROM blog_entry;
+---

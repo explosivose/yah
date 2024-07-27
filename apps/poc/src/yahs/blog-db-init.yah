@@ -3,30 +3,33 @@ query:
   init: true
   name: blog-db-init
   source: yah-blog-db
-  query: |
+  type: exec
+  sql: |
+    CREATE TABLE whatever(
+      field TEXT
+    ) STRICT;
     CREATE TABLE blog_user(
-      user varchar(30) primary key,
-      pass varchar(30)
-    );
+      user TEXT PRIMARY KEY,
+      pass TEXT
+    ) STRICT;
     CREATE TABLE blog_entry(
-      created timestamp,
-      user varchar(30),
-      entry text,
-      slug varchar(30) primary key,
-      foreign key (user) references blog_user(user)
-    );
+      created TEXT NOT NULL DEFAULT current_timestamp,
+      user TEXT,
+      entry TEXT,
+      slug TEXT primary key,
+      FOREIGN KEY(user) REFERENCES blog_user(user)
+    ) STRICT;
     INSERT INTO blog_user(user, pass) 
     VALUES ('matt', 'mattpass'), ('yahsqueen', 'yahsqueenpass'), ('yahman', 'yahmanpass');
-    INSERT INTO blog_entry(created, user, slug, entry)
+    INSERT INTO blog_entry(user, slug, entry)
     VALUES (
-      CURRENT_TIMESTAMP,
       'matt',
       'welcome',
       'Welcome to yah blog'
     ), (
-      CURRENT_TIMESTAMP,
       'yahsqueen',
       'yah',
       'yaaaaaaaaaaahs queen'
     );
 ---
+

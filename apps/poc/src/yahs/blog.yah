@@ -1,11 +1,12 @@
 ---
 query:
   source: yah-blog-db
-  out: post
-  query: |
+  name: blog
+  type: get
+  sql: |
     SELECT * FROM blog_entry
-    WHERE slug = ?
-  operands: p:params:slug
+    WHERE slug = '${p.params.slug}';
+  d: post
 ---pug
 section
   nav

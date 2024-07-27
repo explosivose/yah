@@ -3,21 +3,27 @@ import parentLogger from "@yah/logger";
 
 /**
  * @import { z } from 'zod'
- * @import { QuerySchema } from '@yah/parse'
- * @typedef {z.infer<typeof QuerySchema>} DataQuery
+ * @import { Query } from '@yah/parse'
  */
 const logger = parentLogger.child({ name: "data" });
 
 /**
  *
- * @param {DataQuery} query
+ * @param {Query} query
  */
-export const runQuery = (query) => {
+export const runQuery = async (query) => {
   const connector = getDataConnectorForSource(query.source);
   if (!connector) {
     const error = `No connector for ${query.source}`;
     logger.error(error);
     throw new Error(error);
   }
-  return connector.runQuery(query.source, query.query);
+  logger.debug(
+    `Describe ${query.source}:\n${JSON.stringify(await connector.describe(query.source))}`,
+  );
+  const data = connector.runQuery(query);
+  logger.debug(
+    `Describe ${query.source}:\n${JSON.stringify(await connector.describe(query.source))}`,
+  );
+  return data;
 };

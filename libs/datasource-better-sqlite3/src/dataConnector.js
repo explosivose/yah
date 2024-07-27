@@ -1,5 +1,6 @@
 /**
  * @import { DataSource, DataConnector, GetDataSource, RemoveDataSource, AddDataSource } from "@yah/datasource"
+ * @import { Query } from "@yah/parse";
  */
 /**
  * @typedef {Object} SqliteSource
@@ -11,10 +12,8 @@
 /**
  * @typedef {z.infer<typeof QuerySqliteSchema>} QuerySqlite
  */
-
-// @ts-ignore types not yet available for experimental node:sqlite
-import { DatabaseSync } from "node:sqlite";
 import parentLogger from "@yah/logger";
+import Database from "better-sqlite3";
 import { QuerySchema } from "@yah/parse";
 import z from "zod";
 const QuerySqliteSchema = QuerySchema.extend({
@@ -31,7 +30,7 @@ class DataConnectorSqlite {
   /**
    * @readonly
    */
-  type = "sqlite";
+  type = "better-sqlite3";
   get sources() {
     logger.debug(`Sources: ${this.#sources.size}`);
     return [...this.#sources.keys()];
@@ -41,7 +40,7 @@ class DataConnectorSqlite {
    */
   #sources = new Map();
   /**
-   * @type {Map<string, DatabaseSync>}
+   * @type {Map<string, Database.Database>}
    */
   #connections = new Map();
   /**
@@ -70,26 +69,16 @@ class DataConnectorSqlite {
     if (!source) {
       throw new Error(`No source named ${sourceName}`);
     }
-    logger.debug(`Connecting to source ${source.name}`);
-    const database = new DatabaseSync(source.connection);
+    const database = new Database(source.connection);
     this.#connections.set(sourceName, database);
   }
   /**
-   * @template T
-   * @param {QuerySqlite} unparsedQuery
-   * @returns {Promise<T | undefined>}
+   * @param {QuerySqlite} query
+   * @returns {Promise<unknown>}
    */
-  async runQuery(unparsedQuery) {
-    let query;
-    try {
-      query = QuerySqliteSchema.parse(unparsedQuery);
-    } catch (err) {
-      logger.error(`Oops with ${JSON.stringify(unparsedQuery, undefined, 2)}`);
-      throw err;
-    }
+  async runQuery(query) {
     let database = this.#connections.get(query.source);
     if (!database) {
-      logger.debug(`Not yet connected to ${query.source}`);
       this.connect(query.source);
       database = this.#connections.get(query.source);
     }
@@ -97,11 +86,11 @@ class DataConnectorSqlite {
       throw new Error(`No source named ${query.source}`);
     }
     if (query.type === "exec") {
-      logger.debug(`Executing ${query.name ? query.name : ""}:\n ${query.sql}`);
+      logger.debug(`Executing ${query.name ? query.name : ""}:\n ${query}`);
       database.exec(query.sql);
       return undefined;
     }
-    logger.debug(`Getting ${query.name ? query.name : ""}:\n ${query.sql}`);
+    logger.debug(`Getting ${query.name ? query.name : ""}:\n ${query}`);
     const prepared = database.prepare(query.sql);
     let data;
     if (query.type === "all") {

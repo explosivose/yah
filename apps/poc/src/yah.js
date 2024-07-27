@@ -60,6 +60,7 @@ export class Yah {
     if (this.#fm?.query) {
       const queryBody = structuredClone(this.#fm.query);
       interpolateValues(queryBody);
+      this.#logger.debug(JSON.stringify(queryBody, undefined, 2));
       const queryResult = await runQuery(queryBody);
       this.#logger.debug(queryResult);
       return queryResult;
