@@ -18,12 +18,6 @@ export const runQuery = async (query) => {
     logger.error(error);
     throw new Error(error);
   }
-  logger.debug(
-    `Describe ${query.source}:\n${JSON.stringify(await connector.describe(query.source))}`,
-  );
   const data = connector.runQuery(query);
-  logger.debug(
-    `Describe ${query.source}:\n${JSON.stringify(await connector.describe(query.source))}`,
-  );
   return data;
 };

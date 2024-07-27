@@ -4,7 +4,7 @@
 import { runQuery } from "@yah/data";
 import { addDataSource } from "@yah/datasource";
 import parentLogger from "@yah/logger";
-import { interpolateValues } from "../../../libs/parse/src/interpolateObjectValues.js";
+import { interpolateValues, variables } from "@yah/parse";
 
 export class Yah {
   /**
@@ -54,15 +54,28 @@ export class Yah {
     }
   }
 
-  render() {}
+  render() {
+    const context = variables.getAll();
+    this.#logger.debug(JSON.stringify(context, undefined, 2));
+    const rendered = this.#templateFn(variables.getAll());
+    this.#logger.debug(rendered);
+    return rendered;
+  }
 
   async #runQuery() {
     if (this.#fm?.query) {
       const queryBody = structuredClone(this.#fm.query);
       interpolateValues(queryBody);
-      this.#logger.debug(JSON.stringify(queryBody, undefined, 2));
+      this.#logger.debug(
+        `queryBody: ${JSON.stringify(queryBody, undefined, 2)}`,
+      );
       const queryResult = await runQuery(queryBody);
-      this.#logger.debug(queryResult);
+      this.#logger.debug(
+        `queryResult: ${JSON.stringify(queryResult, undefined, 2)}`,
+      );
+      if (queryBody.d) {
+        variables.set("d", { [queryBody.d]: queryResult });
+      }
       return queryResult;
     }
   }

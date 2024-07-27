@@ -15,6 +15,5 @@ export const parseTemplate = (input) => {
     logger.debug("Parsing html template...");
     templateFn = () => input.join("");
   }
-  logger.debug(templateFn);
   return templateFn;
 };

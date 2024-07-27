@@ -31,6 +31,20 @@ class Variables {
     const context = this.#store.getStore();
     return context?.get(variable);
   }
+  /**
+   * @returns {Record<string, unknown>}
+   */
+  getAll() {
+    const context = this.#store.getStore();
+    /**
+     * @type Record<string, unknown>
+     */
+    const data = {};
+    for (const key of context?.keys() || []) {
+      data[key] = context?.get(key);
+    }
+    return data;
+  }
 }
 
 export const variables = new Variables();

@@ -55,17 +55,20 @@ const main = async () => {
   const yahs = [blogRaw, blogDbRaw, blogDbInit, testDb].map(
     (raw) => new Yah(parse(raw.rawYah.toString(), raw.name)),
   );
-  logger.debug("hello");
+  logger.info("Registering data sources");
   for (const yah of yahs) {
     yah.registerDataSources();
   }
+  logger.info("Running init queries");
   for (const yah of yahs) {
     await yah.runInitQuery();
   }
+  logger.info("Running queries & rendering templates");
   for (const yah of yahs) {
     variables.createContext(async () => {
       variables.set("p.params.slug", "welcome");
       await yah.runQuery();
+      yah.render();
     });
   }
 };
