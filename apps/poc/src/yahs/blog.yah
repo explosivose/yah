@@ -7,9 +7,10 @@ query:
     SELECT * FROM blog_entry
     WHERE slug = '${p.params.slug}';
   d: post
----pug
-section
-  nav
-  h1 #{d.post.slug}
-  p #{d.post.entry}
+---html
+<section>
+  <nav></nav>
+  <h1>${d.post.slug}</h1>
+  <p>${d.post.entry}</p>
+</section>
   

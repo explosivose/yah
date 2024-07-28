@@ -65,10 +65,14 @@ const main = async () => {
   }
   logger.info("Running queries & rendering templates");
   for (const yah of yahs) {
-    variables.createContext(async () => {
-      variables.set("p.params.slug", "welcome");
+    await variables.createContext(async () => {
+      variables.set("p", {
+        params: {
+          slug: "welcome",
+        },
+      });
       await yah.runQuery();
-      yah.render();
+      logger.info(yah.render());
     });
   }
 };

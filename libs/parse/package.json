@@ -6,6 +6,7 @@
     ".": "./src/index.js"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
     "parse5": "^7.1.2",
     "pino": "^9.2.0",
     "pug": "^3.0.3",
@@ -14,6 +15,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.2",
+    "@types/lodash": "^4.17.7",
     "@types/pug": "^2.0.10"
   }
 }

@@ -56,9 +56,9 @@ export class Yah {
 
   render() {
     const context = variables.getAll();
-    this.#logger.debug(JSON.stringify(context, undefined, 2));
+    this.#logger.debug(`variables: ${JSON.stringify(context, undefined, 2)}`);
     const rendered = this.#templateFn(variables.getAll());
-    this.#logger.debug(rendered);
+    this.#logger.info(rendered);
     return rendered;
   }
 
